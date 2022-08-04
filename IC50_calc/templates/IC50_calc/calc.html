@@ -1,0 +1,40 @@
+{% extends 'IC50_calc/source.html' %}
+
+{% block title %}
+    Calculation IC50
+{% endblock %}
+
+{% block content %}
+    <div class="my_container">
+        <div class="my_card">
+            <div class="header"> Caclulate IC50</div>
+            <form action="{% url 'calc_page' %}">
+                <div class="input-group mb-3">
+                    <input type="search" class="form-control" placeholder="Insert SMILES formula" aria-label="Insert SMILES formula" aria-describedby="button-addon2" name="search">
+                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Find IC50</button>
+                </div>
+            </form>
+            {% if error %}
+            <h3 style="color: #e80000; width: 100%; text-align: center"> IC50 calculation failed </h3>
+            {% endif %}
+        </div>
+        <div class="my_card" style="width: auto"> {% if result %}
+            <div  class="col card m-1 shaded search" style="width: 18rem;">
+                    <img src="{{ result.image.url }}" class="card-img-top" alt="Image not found">
+                    <div class="card-body">
+                        <p class="card-text">{{ result.smile }}</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">IC50: {{ result.ic50 }} nMol</li>
+                        {% if result.flag %}
+                        <li class="list-group-item" style="background-color: rgb(250,234,128)">Predicted</li>
+                            {% else %}
+                            <li class="list-group-item" style="background-color: rgba(185,239,97,0.52)">In Database</li>
+                            {% endif %}
+                    </ul>
+            </div>
+            {% endif %}
+        </div>
+        <div class="my_card"></div>
+    </div>
+{% endblock %}

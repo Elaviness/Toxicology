@@ -1,0 +1,47 @@
+{% extends 'IC50_calc/source.html' %}
+
+{% block title %}
+    IC50 base
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            {% load static %}
+            <script src="{% static "tst.js" %}" defer></script>
+            <form id="search-form" class="my_card">
+                <div class="input-group mb-3">
+                    <input list="smiles" id="search-input" type="search" class="form-control search"
+                           placeholder="Input SMILES formula"
+                           aria-describedby="button-addon2" name="search">
+                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Search</button>
+                </div>
+            </form>
+            <datalist id="smiles">
+                {% for row in table %}
+                    <option>{{ row.smile }}</option>
+                {% endfor %}
+            </datalist>
+        </div>
+        <div class="row row-cols-auto justify-content-center">
+            {% for row in table %}
+                <div name="card" id="card_{{ row.id }}" class="col card m-1 shaded search" style="width: 18rem;"
+                     data-smiles="{{ row.smile }}" data-selected>
+                    <img src="{{ row.image.url }}" class="card-img-top" alt="Image not found">
+                    <div class="card-body">
+                        <p class="card-text">{{ row.smile }}</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">IC50: {{ row.ic50 }} nMol</li>
+                    </ul>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="back hidden-back" onclick='toUp()'>
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 20L12 4L18 10M6 10L9 7" stroke="#001A72" stroke-width="1.5" stroke-linecap="round"
+                      stroke-linejoin="round"/>
+            </svg>
+        </div>
+    </div>
+{% endblock %}
